@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+pydantic-settings
+requests
+httpx
+jinja2
+python-multipart
+beanie
+motor
