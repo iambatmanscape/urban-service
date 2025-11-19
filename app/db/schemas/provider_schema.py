@@ -14,23 +14,30 @@ class ServiceDetails(BaseModel):
     type_of_service: str = Field(..., description="Type of service provided", index=True)
     service_fee: float = Field(..., description="Service fee charged by the provider per hour")
     availability: list[AvailSlot] = Field(default_factory=list)
-    active: Optional[bool] = Field(True, description="Indicates if the service is currently active")\
-        
-class ReviewDetails(BaseModel):
-    customer_id: str = Field(..., description="ID of the customer who gave the review")
-    rating: int = Field(..., description="Rating given by the customer")
-    comment: Optional[str] = Field(None, description="Optional comment provided by the customer")
-    date: datetime = Field(default_factory=datetime.now(timezone.utc), description="Date when the review was given")
+    active: Optional[bool] = Field(True, description="Indicates if the service is currently active")
+    
+    
+class ProviderSchema(BaseModel):
+    name: str = Field(..., description="Full name of the provider")
+    email: EmailStr = Field(..., description="Email address of the provider", index=True)
+    password: str = Field(..., description="Hashed password of the provider")
+    phone_number: Optional[str] = Field(None, description="Phone number of the provider")
+    service_area: Optional[str] = Field(None, description="Service area of the provider")
+    services: list[ServiceDetails] = Field(..., description="Details of services provided")
+    active: Optional[bool] = Field(True, description="Indicates if the provider is currently active")
+    ratings: Optional[float] = Field(0.0, gt=0.0, lt=5.0, description="Average rating of the customer")
 
 
 class Provider(Document):
     name: str = Field(..., description="Full name of the provider")
     email: EmailStr = Field(..., description="Email address of the provider", index=True)
+    password: str = Field(..., description="Hashed password of the provider")
     provider_id: str = Field(..., description="Unique identifier for the provider", index=True)
     services: list[ServiceDetails] = Field(..., description="Details of services provided")
     phone_number: Optional[str] = Field(None, description="Phone number of the provider")
     service_area: Optional[str] = Field(None, description="Service area of the provider")
     active: Optional[bool] = Field(True, description="Indicates if the provider is currently active")
+    ratings: Optional[float] = Field(0.0, gt=0.0, lt=5.0, description="Average rating of the customer")
     
     
     @staticmethod

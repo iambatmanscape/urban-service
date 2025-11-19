@@ -3,12 +3,20 @@ from pydantic import BaseModel, EmailStr, Field
 from beanie import Document, before_event
 import uuid
 
+class CustomerSchema(BaseModel):
+    name: str = Field(..., description="Full name of the customer")
+    email: EmailStr = Field(..., description="Email address of the customer", index=True)
+    phone_number: Optional[str] = Field(None, description="Phone number of the customer")
+    password: str = Field(..., description="Password of the customer")
+    address: Optional[str] = Field(None, description="Physical address of the customer")
+
 
 
 class Customer(Document):
     user_id: str = Field(..., description="Unique identifier for the customer")
     name: str = Field(..., description="Full name of the customer")
     email: EmailStr = Field(..., description="Email address of the customer", index=True)
+    password: str = Field(..., description="Hashed password of the customer")
     phone_number: Optional[str] = Field(None, description="Phone number of the customer")
     address: Optional[str] = Field(None, description="Physical address of the customer")
     

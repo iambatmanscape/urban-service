@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 import uvicorn
 
 app = FastAPI()

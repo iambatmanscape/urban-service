@@ -12,4 +12,4 @@ async def init_db():
     await init_beanie(database=database, document_models=[Customer, Provider, Review])
 
 
-__all__ = [init_db, Customer, Provider, Review]
+__all__ = [init_db]
