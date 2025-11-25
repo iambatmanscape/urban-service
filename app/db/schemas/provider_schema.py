@@ -32,12 +32,13 @@ class Provider(Document):
     name: str = Field(..., description="Full name of the provider")
     email: EmailStr = Field(..., description="Email address of the provider", index=True)
     password: str = Field(..., description="Hashed password of the provider")
-    provider_id: str = Field(..., description="Unique identifier for the provider", index=True)
+    provider_id: Optional[str] = Field(..., description="Unique identifier for the provider", index=True)
     services: list[ServiceDetails] = Field(..., description="Details of services provided")
     phone_number: Optional[str] = Field(None, description="Phone number of the provider")
     service_area: Optional[str] = Field(None, description="Service area of the provider")
     active: Optional[bool] = Field(True, description="Indicates if the provider is currently active")
     ratings: Optional[float] = Field(0.0, gt=0.0, lt=5.0, description="Average rating of the customer")
+    email_verified: bool = Field(default=False, description="Indicates if the provider's email is verified")
     
     
     @staticmethod

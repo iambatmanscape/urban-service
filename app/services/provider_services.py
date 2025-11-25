@@ -2,7 +2,7 @@ from db.schemas.provider_schema import Provider, ProviderSchema
 from utils.hashing import verify_password
 
 async def create_provider(data: ProviderSchema) -> Provider:
-    provider = Provider(**data)
+    provider = Provider(**data.model_dump())
     await provider.insert()
     return provider
 

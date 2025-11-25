@@ -10,18 +10,18 @@ const steps = [
   {
     icon: Calendar,
     title: 'Book',
-    description: 'Choose your preferred time slot and add details about your job',
+    description: 'Choose your preferred provider and schedule a convenient time slot',
   },
   {
     icon: Zap,
     title: 'Done',
-    description: 'Track your service in real-time and pay securely after completion',
+    description: 'Relax while the professionals handle the job efficiently and reliably',
   },
 ]
 
 export function HowItWorks() {
   return (
-    <section className="py-16 md:py-24 bg-muted/30">
+    <section className="py-16 md:py-24 bg-muted/30" id='how-it-works'>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">How it works</h2>

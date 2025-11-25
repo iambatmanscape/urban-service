@@ -2,7 +2,7 @@ from db.schemas.customer_schema import Customer, CustomerSchema
 from utils.hashing import verify_password
 
 async def create_customer(data: CustomerSchema) -> Customer:
-    customer = Customer(**data)
+    customer = Customer(**data.model_dump())
     await customer.insert()
     return customer
 

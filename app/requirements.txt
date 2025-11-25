@@ -11,3 +11,5 @@ beanie
 motor
 bcrypt
 pyJWT
+mailersend
+redis

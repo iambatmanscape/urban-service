@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
+from api import api_router
 import uvicorn
 
 app = FastAPI()
@@ -13,6 +14,8 @@ async def home():
         "status": "Active",
         "name": "Urban Services backend running..."
     }, status_code=200)
+    
+app.include_router(api_router)
 
 
 if __name__ == "__main__":

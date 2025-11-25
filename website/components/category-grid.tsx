@@ -24,32 +24,33 @@ export function CategoryGrid() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category) => {
             const Icon = category.icon
             return (
               <Card
-                key={category.name}
-                className="group relative overflow-hidden p-6 hover:shadow-2xl transition-smooth cursor-pointer border border-border hover:border-accent/60 rounded-2xl"
+          key={category.name}
+          className="group relative overflow-hidden p-6 hover:shadow-2xl transition-smooth cursor-pointer border border-border hover:border-accent/60 rounded-2xl"
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-5 transition-smooth`} />
-                <div className="relative">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className={`p-3 rounded-xl bg-gradient-to-br ${category.color} shadow-lg`}>
-                      <Icon size={28} className="text-white" />
-                    </div>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-2 group-hover:text-accent transition-smooth">{category.name}</h3>
-                  <p className="text-foreground/60 text-sm mb-6 font-medium">{category.count}</p>
-                  <Button
-                    className="w-full text-sm font-semibold h-11 bg-gradient-to-r from-accent/80 to-accent hover:shadow-lg text-white rounded-lg transition-smooth"
-                    asChild
-                  >
-                    <a href={`/search?category=${category.name.toLowerCase()}`}>
-                      Browse Services
-                    </a>
-                  </Button>
-                </div>
+          <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-5 transition-smooth`} />
+          <div className="relative">
+            <div className="flex items-start justify-between mb-4">
+              <div className={`p-3 rounded-xl bg-gradient-to-br ${category.color} shadow-lg`}>
+          <Icon size={28} className="text-white" />
+              </div>
+            </div>
+            <h3 className={`text-2xl font-bold mb-2 transition-smooth group-hover:text-transparent bg-clip-text bg-gradient-to-br ${category.color} text-black`}>
+              {category.name}
+            </h3>
+            <Button
+              className={`w-full text-sm font-semibold h-11 bg-gradient-to-br ${category.color} text-white hover:shadow-lg rounded-lg transition-smooth`}
+              asChild
+            >
+              <a href={`/search?category=${category.name.toLowerCase()}`}>
+          Browse Services
+              </a>
+            </Button>
+          </div>
               </Card>
             )
           })}

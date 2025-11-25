@@ -26,14 +26,11 @@ export function Header() {
 
         {/* Desktop navigation */}
         <div className="hidden md:flex items-center gap-8">
-          <Link href="/categories" className="text-foreground/70 hover:text-foreground transition-smooth">
+          <Link href="#" className="text-foreground/70 hover:text-foreground transition-smooth">
             Services
           </Link>
-          <Link href="/how-it-works" className="text-foreground/70 hover:text-foreground transition-smooth">
+          <Link href="#how-it-works" className="text-foreground/70 hover:text-foreground transition-smooth">
             How it works
-          </Link>
-          <Link href="/about" className="text-foreground/70 hover:text-foreground transition-smooth">
-            About
           </Link>
           <div className="flex gap-3">
             <Button variant="outline" asChild>

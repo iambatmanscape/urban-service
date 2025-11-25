@@ -67,7 +67,7 @@ export function HeroSection() {
             <a href="/search">Book a service</a>
           </Button>
           <Button
-            className="px-8 py-6 text-lg font-semibold rounded-xl border-2 border-primary text-primary hover:bg-primary/5 transition-smooth"
+            className="px-8 py-6 text-lg font-semibold rounded-xl border-2 border-primary text-white hover:bg-primary/5 hover:text-primary transition-smooth"
             asChild
           >
             <a href="/become-provider">Become a provider</a>

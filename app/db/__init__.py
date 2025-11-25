@@ -1,9 +1,9 @@
 from beanie import init_beanie
 from config import settings
 from motor.motor_asyncio import AsyncIOMotorClient
-from schemas.customer_schema import Customer
-from schemas.provider_schema import Provider
-from schemas.review_schema import Review
+from .schemas.customer_schema import Customer
+from .schemas.provider_schema import Provider
+from .schemas.review_schema import Review
 
 
 async def init_db():

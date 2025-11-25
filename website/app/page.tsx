@@ -2,7 +2,7 @@ import { Header } from '@/components/header'
 import { HeroSection } from '@/components/hero-section'
 import { CategoryGrid } from '@/components/category-grid'
 import { HowItWorks } from '@/components/how-it-works'
-import { FeaturedProviders } from '@/components/featured-providers'
+// import { FeaturedProviders } from '@/components/featured-providers'
 import { TrustSection } from '@/components/trust-section'
 import { Footer } from '@/components/footer'
 
@@ -13,7 +13,7 @@ export default function Home() {
       <HeroSection />
       <CategoryGrid />
       <HowItWorks />
-      <FeaturedProviders />
+      {/* <FeaturedProviders /> */}
       <TrustSection />
       <Footer />
     </div>
