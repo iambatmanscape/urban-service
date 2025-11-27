@@ -1,7 +1,7 @@
 from mailersend import MailerSendClient, EmailBuilder
 from config import settings
 
-ms = MailerSendClient(api_key=settings.MAILER_SEND_API_KEY)
+ms = MailerSendClient()
 
 def account_verification_template(name:str,verification_link:str):
     return f"""
@@ -36,7 +36,7 @@ def account_verification_template(name:str,verification_link:str):
 
                 <tr>
                     <td align="center" style="padding:10px 24px 20px 24px;">
-                    <a href="{{verification_link}}" 
+                    <a href="{verification_link}" 
                         style="display:inline-block; padding:12px 24px; background-color:#2563eb; color:#ffffff; text-decoration:none; font-size:14px; font-weight:bold; border-radius:4px;">
                         Verify Email
                     </a>

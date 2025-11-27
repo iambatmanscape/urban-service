@@ -18,6 +18,6 @@ class AuthorizationMiddleware(BaseHTTPMiddleware):
                 return False
             
             payload = verify_token(token)
-            return True
+            return True, payload
         except Exception:
             return False

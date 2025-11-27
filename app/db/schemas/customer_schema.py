@@ -1,6 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr, Field
-from beanie import Document, before_event
+from beanie import Document, before_event, Insert
+from utils.hashing import hash_password
 import uuid
 
 class CustomerSchema(BaseModel):
@@ -13,7 +14,7 @@ class CustomerSchema(BaseModel):
 
 
 class Customer(Document):
-    user_id: Optional[str] = Field(..., description="Unique identifier for the customer")
+    user_id: Optional[str] = Field(default=None, description="Unique identifier for the customer")
     name: str = Field(..., description="Full name of the customer")
     email: EmailStr = Field(..., description="Email address of the customer", index=True)
     password: str = Field(..., description="Hashed password of the customer")
@@ -21,15 +22,20 @@ class Customer(Document):
     address: Optional[str] = Field(None, description="Physical address of the customer")
     email_verified: bool = Field(default=False, description="Indicates if the customer's email is verified")
     
-    @before_event("insert")
+    @before_event(Insert)
     def set_user_id(self):
         self.user_id = self.generate_user_id(self.name, self.email)
+        
+    @before_event(Insert)
+    def hash_user_password(self):
+        self.password = hash_password(self.password)
+    
 
     class Settings:
         name = "customers"
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "customer_id": "john_doe_johndoe_1a2b3c4d",
             "name": "John Doe",
             "email": "johndoe@example.com",

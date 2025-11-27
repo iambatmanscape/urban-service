@@ -1,11 +1,30 @@
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv, find_dotenv
+from db import init_db
 load_dotenv(find_dotenv())
 from api import api_router
 import uvicorn
+import logging
+import os
+logging.basicConfig(level=logging.INFO)
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await init_db()
+    logging.info("Database initialized.")
+    yield
+
+app = FastAPI(lifespan=lifespan)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get('/')

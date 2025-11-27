@@ -15,7 +15,7 @@ class Review(Document):
         name = "reviews"
         
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "customer_id": "john_doe_johndoe_1a2b3c4d",
             "provider_id": "jane_smith_janesmith_1a2b3c4d",
             "rating": 5,

@@ -1,22 +1,59 @@
-from os import getenv
+# settings.py
+from typing import Optional
+from pydantic import SecretStr, Field
+from pydantic_settings import BaseSettings
+import logging
 from redis import Redis
+logger = logging.getLogger(__name__)
 
-class Settings:
+
+class Settings(BaseSettings):
     PROJECT_NAME: str = "Urban Services"
-    MONGODB_URI: str = getenv("MONGODB_URI","mongodb://localhost:27017")
+
+
+    MONGODB_URI: str = None
     DATABASE_NAME: str = "urban_services_db"
-    MAILER_SEND_DOMAIN: str = getenv("EMAIL_DOMAIN","your-mailersend-domain")
-    MAILER_SEND_API_KEY: str = getenv("MAILER_SEND_API_KEY","your-mailersend-api-key")
-    REDIS_HOST: str = getenv("REDIS_HOST","localhost")
-    REDIS_PORT: int = int(getenv("REDIS_PORT","6379"))
-    REDIS_DB: int = int(getenv("REDIS_DB","0"))
-    REDIS_PASSWORD: str = getenv("REDIS_PASSWORD","")
-    REDIS_CLIENT: Redis = Redis(
-        host=REDIS_HOST,
-        port=REDIS_PORT,
-        db=REDIS_DB,
-        password=REDIS_PASSWORD,
-        decode_responses=True
-    )
+
+    
+    MAILER_SEND_DOMAIN: str = Field("your-mailersend-domain")
+    MAILERSEND_API_KEY: Optional[SecretStr] = None
+
+    
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+    REDIS_PASSWORD: Optional[SecretStr] = None
+
+    
     EMAIL_VERIFICATION_EXPIRY_SECONDS: int = 3600
-    BACKEND_URL: str = getenv("BACKEND_URL","http://localhost:8000")
+    BACKEND_URL: str = Field("http://localhost:8000")
+
+    class Config:
+        
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+        extra = "ignore"
+
+    
+    @property
+    def redis_client(self) -> Redis:
+        
+        if not hasattr(self, "_redis_client"):
+            password = (
+                None if self.REDIS_PASSWORD is None else self.REDIS_PASSWORD.get_secret_value()
+            )
+            self._redis_client = Redis(
+                host=self.REDIS_HOST,
+                port=self.REDIS_PORT,
+                db=self.REDIS_DB,
+                username="default",
+                password=password,
+                decode_responses=True,
+            )
+            self._redis_client.ping()
+
+        return self._redis_client
+
+
+
+settings = Settings()

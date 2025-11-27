@@ -1,7 +1,8 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr, Field
-from beanie import Document, before_event
+from beanie import Document, before_event, Insert
 from datetime import datetime, timezone
+from utils.hashing import hash_password
 import uuid
 
 class AvailSlot(BaseModel):
@@ -32,7 +33,7 @@ class Provider(Document):
     name: str = Field(..., description="Full name of the provider")
     email: EmailStr = Field(..., description="Email address of the provider", index=True)
     password: str = Field(..., description="Hashed password of the provider")
-    provider_id: Optional[str] = Field(..., description="Unique identifier for the provider", index=True)
+    provider_id: Optional[str] = Field(default=None, description="Unique identifier for the provider", index=True)
     services: list[ServiceDetails] = Field(..., description="Details of services provided")
     phone_number: Optional[str] = Field(None, description="Phone number of the provider")
     service_area: Optional[str] = Field(None, description="Service area of the provider")
@@ -46,15 +47,19 @@ class Provider(Document):
         unique_suffix = uuid.uuid4().hex[:8]
         return f"{name.lower().replace(' ', '_')}_{email.split('@')[0].lower()}_{unique_suffix}"
     
-    @before_event("insert")
+    @before_event(Insert)
     def set_provider_id(self):
         self.provider_id = self.generate_user_id(self.name, self.email)
+        
+    @before_event(Insert)
+    def hash_provider_password(self):
+        self.password = hash_password(self.password)
 
     class Settings:
         name = "providers"
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "provider_id": "jane_smith_janesmith_1a2b3c4d",
             "name": "Jane Smith",
             "email": "janesmith@example.com",
