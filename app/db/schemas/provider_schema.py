@@ -6,9 +6,9 @@ from utils.hashing import hash_password
 import uuid
 
 class AvailSlot(BaseModel):
-    weekday: int
-    start_min: int
-    end_min: int
+    weekday: list[str] = Field(..., description="Day/Days of the week", index=True)
+    start: str = Field(..., description="Start time in 24-hour format")
+    end: str = Field(..., description="End time in 24-hour format")
 
 
 class ServiceDetails(BaseModel):
@@ -26,7 +26,7 @@ class ProviderSchema(BaseModel):
     service_area: Optional[str] = Field(None, description="Service area of the provider")
     services: list[ServiceDetails] = Field(..., description="Details of services provided")
     active: Optional[bool] = Field(True, description="Indicates if the provider is currently active")
-    ratings: Optional[float] = Field(0.0, gt=0.0, lt=5.0, description="Average rating of the customer")
+    ratings: Optional[float] = Field(0.5, gt=0.0, lt=5.0, description="Average rating of the customer")
 
 
 class Provider(Document):

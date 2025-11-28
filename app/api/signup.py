@@ -54,7 +54,7 @@ async def verify_email(token: str, source: str, email: str):
             if source == "provider":
                 await update_provider_by_email(email, {"email_verified": True})
             else:
-                await update_customer_by_email(email, {"email_verified": True})
+                await update_customer_by_email(email, {"email_verified": True, "active": True})
             return JSONResponse(status_code=200, content={"message": "Email verified successfully."})
         else:
             raise HTTPException(status_code=400, detail="Invalid or expired token.")

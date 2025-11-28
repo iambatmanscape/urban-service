@@ -1,3 +1,4 @@
+from typing import List, Optional
 from db.schemas.provider_schema import Provider, ProviderSchema
 from utils.hashing import verify_password
 
@@ -41,3 +42,43 @@ async def delete_provider_by_email(email: str) -> None:
         raise ValueError("PROVIDER_NOT_FOUND")
     await provider.delete()
     return provider
+
+
+
+async def search_providers(
+    type_of_service: Optional[str] = None,
+    service_area: Optional[str] = None,
+    weekday: Optional[int] = None,
+    max_fee: Optional[float] = None,
+    min_rating: Optional[float] = None,
+) -> List[Provider]:
+
+    query = {}
+
+    query["active"] = True
+
+    if service_area:
+        query["service_area"] = service_area
+
+    if type_of_service:
+        query["services.type_of_service"] = type_of_service
+
+    if min_rating:
+        query["ratings"] = {"$gte": min_rating}
+
+    service_filters = {}
+
+    if max_fee is not None:
+        service_filters["services.service_fee"] = {"$lte": max_fee}
+
+    if weekday is not None:
+        service_filters["services.availability.weekday"] = weekday
+
+    if service_filters:
+        query.update(service_filters)
+
+    providers = await Provider.find(query).to_list()
+
+    return providers
+
+

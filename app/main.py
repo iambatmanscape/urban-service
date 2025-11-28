@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv, find_dotenv
 from db import init_db
 load_dotenv(find_dotenv())
-from api import api_router
+from api import api_router, authenticated_routes
 import uvicorn
 import logging
 import os
@@ -35,6 +35,7 @@ async def home():
     }, status_code=200)
     
 app.include_router(api_router)
+app.mount("/auth", authenticated_routes)
 
 
 if __name__ == "__main__":
